@@ -13,9 +13,9 @@ scalaVersion := "2.13.8"
 
 libraryDependencies ++= Seq(
   guice,
-  "com.typesafe.play"       %% "play-slick"            % "4.0.2",
-  "com.typesafe.play"       %% "play-slick-evolutions" % "4.0.2",
-  "com.typesafe.slick"      %% "slick-codegen"         % "3.3.3",
-  "org.mariadb.jdbc"         % "mariadb-java-client"   % "2.4.3",
-  "org.scalaz"              %% "scalaz-core"           % "7.3.2",
+  "com.typesafe.play"  %% "play-slick"            % "5.0.2",
+  "com.typesafe.play"  %% "play-slick-evolutions" % "5.0.2",
+  "com.typesafe.slick" %% "slick-codegen"         % "3.3.3",
+  "org.mariadb.jdbc"    % "mariadb-java-client"   % "2.4.3",
+  "org.scalaz"         %% "scalaz-core"           % "7.3.2",
 )

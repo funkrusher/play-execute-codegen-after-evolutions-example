@@ -13,12 +13,12 @@ trait UserTable {
    *  @param email Database column email SqlType(VARCHAR), Length(255,true)
    *  @param password Database column password SqlType(VARCHAR), Length(255,true)
    *  @param fullname Database column fullname SqlType(VARCHAR), Length(255,true)
-   *  @param isAdmin Database column isAdmin SqlType(INT) */
-  case class UserRow(id: Long, email: String, password: String, fullname: String, isAdmin: Int)
+   *  @param isAdmin Database column isAdmin SqlType(BIT) */
+  case class UserRow(id: Long, email: String, password: String, fullname: String, isAdmin: Boolean)
   /** GetResult implicit for fetching UserRow objects using plain SQL queries */
-  implicit def GetResultUserRow(implicit e0: GR[Long], e1: GR[String], e2: GR[Int]): GR[UserRow] = GR{
+  implicit def GetResultUserRow(implicit e0: GR[Long], e1: GR[String], e2: GR[Boolean]): GR[UserRow] = GR{
     prs => import prs._
-    UserRow.tupled((<<[Long], <<[String], <<[String], <<[String], <<[Int]))
+    UserRow.tupled((<<[Long], <<[String], <<[String], <<[String], <<[Boolean]))
   }
   /** Table description of table user. Objects of this class serve as prototypes for rows in queries. */
   class User(_tableTag: Tag) extends profile.api.Table[UserRow](_tableTag, Some("codegen1"), "user") {
@@ -34,8 +34,8 @@ trait UserTable {
     val password: Rep[String] = column[String]("password", O.Length(255,varying=true))
     /** Database column fullname SqlType(VARCHAR), Length(255,true) */
     val fullname: Rep[String] = column[String]("fullname", O.Length(255,varying=true))
-    /** Database column isAdmin SqlType(INT) */
-    val isAdmin: Rep[Int] = column[Int]("isAdmin")
+    /** Database column isAdmin SqlType(BIT) */
+    val isAdmin: Rep[Boolean] = column[Boolean]("isAdmin")
   }
   /** Collection-like TableQuery object for table User */
   lazy val User = new TableQuery(tag => new User(tag))

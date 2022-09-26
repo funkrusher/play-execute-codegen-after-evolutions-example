@@ -11,6 +11,15 @@ CREATE TABLE User (
                       PRIMARY KEY (id)
 );
 
+
+CREATE TABLE RuntimeAppConfig (
+    `key` varchar(255) NOT NULL,
+    `value` varchar(255) NOT NULL
+);
+
+
 -- !Downs
 
 DROP TABLE User;
+
+DROP TABLE RuntimeAppConfig;
