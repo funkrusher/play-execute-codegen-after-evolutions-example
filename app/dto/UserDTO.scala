@@ -8,33 +8,36 @@ import tables.Tables.UserRow
 import java.sql.Timestamp
 
 case class UserDTO(
-                        id: Long,
-                        email: String,
-                        password: String,
-                        fullname: String,
-                        isAdmin: Boolean
-                      )
+    userId: Int,
+    clientId: Int,
+    email: String,
+    firstname: String,
+    lastname: String,
+    isAdmin: Int,
+)
 
 object UserDTO {
   implicit val fmt: OFormat[UserDTO] = Json.format[UserDTO]
 
   def fromRow(item: UserRow): UserDTO = {
     UserDTO(
-      id = item.id,
+      userId = item.userId,
+      clientId = item.clientId,
       email = item.email,
-      password = item.password,
-      fullname = item.fullname,
-      isAdmin = item.isAdmin
+      firstname = item.firstname,
+      lastname = item.lastname,
+      isAdmin = item.isAdmin,
     )
   }
 
   def toRow(item: UserDTO): UserRow = {
     UserRow(
-      id = item.id,
+      userId = item.userId,
+      clientId = item.clientId,
       email = item.email,
-      password = item.password,
-      fullname = item.fullname,
-      isAdmin = item.isAdmin
+      firstname = item.firstname,
+      lastname = item.lastname,
+      isAdmin = item.isAdmin,
     )
   }
 }

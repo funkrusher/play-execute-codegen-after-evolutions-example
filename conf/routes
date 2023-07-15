@@ -3,7 +3,11 @@
 # ~~~~
 
 GET        /                                      controllers.RootController.index()
-GET        /users/fetchAll                        controllers.UserController.fetchAll()
+
+GET        /users                                 controllers.UserController.fetchAll()
+GET        /products                              controllers.ProductsController.fetchAll()
+
+GET        /codegen/rebuild                       controllers.CodegenController.rebuild()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

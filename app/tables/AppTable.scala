@@ -1,4 +1,5 @@
 package tables
+
 // AUTO-GENERATED Slick data model for table App
 trait AppTable {
 

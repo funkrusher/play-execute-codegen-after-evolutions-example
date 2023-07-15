@@ -1,10 +1,8 @@
--- Users schema
-
 -- !Ups
 
-ALTER TABLE User MODIFY COLUMN isAdmin boolean NOT NULL;
+ALTER TABLE `user` MODIFY COLUMN isAdmin boolean NOT NULL;
 
 
 -- !Downs
 
-ALTER TABLE User MODIFY COLUMN isAdmin int NOT NULL;
+ALTER TABLE `user` MODIFY COLUMN isAdmin int NOT NULL;
