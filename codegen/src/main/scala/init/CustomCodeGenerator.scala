@@ -61,13 +61,26 @@ class CustomCodeGenerator(model: slick.model.Model) extends SourceCodeGenerator(
                 }
                 .mkString(" && ")
 
-              s"  def ${pluralize(targetTableName.toLowerCase)} = q.join($targetTableNameCamelCase).on($joinCondition).map(_._2)"
+              val targetTablePluralizedName = pluralize(targetTableName.toLowerCase)
+              val backRelationMethodName =  targetTablePluralizedName + "_" + pluralize(tableName.toLowerCase)
 
+              val forwardExtensionCode =
+                s"""
+                   |  def ${targetTablePluralizedName} = q.join(TableQuery[${targetTableNameCamelCase}]).on((${joinCondition})).map(_._2)
+                   |""".stripMargin
+
+              val backRelationExtensionCode =
+                s"""
+                   |  def ${backRelationMethodName}(implicit q: Query[${targetTableNameCamelCase}, ${targetTableClassName}, Seq]): Query[${tableNameCamelCase}, ${tableClassName}, Seq] =
+                   |    q.join(TableQuery[${tableNameCamelCase}]).on((${joinCondition})).map(_._2)
+                   |""".stripMargin
+
+              Seq(forwardExtensionCode, backRelationExtensionCode)
             }
 
             if (foreignKeyExtensions.nonEmpty) {
-              s"implicit class ${tableClassName}Extension[C[_]](q: Query[$tableNameCamelCase, $tableClassName, C]) {\n" +
-                foreignKeyExtensions.mkString("\n") +
+              s"implicit class ${tableClassName}Extension[C[_]](q: Query[${tableNameCamelCase}, ${tableClassName}, C]) {\n" +
+                foreignKeyExtensions.flatten.distinct.mkString("\n") +
                 "\n}\n\n" + super.code
             } else {
               super.code

@@ -26,18 +26,6 @@ class ProductDAO @Inject() (dbcp: DatabaseConfigProvider)(implicit ec: Execution
     Product.result
   }
 
-  def stream(): DatabasePublisher[ProductRow] = {
-    db.stream(
-      Product.result
-        .withStatementParameters(
-          rsType = ResultSetType.ForwardOnly,
-          rsConcurrency = ResultSetConcurrency.ReadOnly,
-          fetchSize = 3000,
-        )
-        .transactionally
-    )
-  }
-
   def fetchOne(productId: Long): DBIO[Option[ProductRow]] =
     Product.filter(_.productId === productId).result.headOption
 

@@ -45,7 +45,13 @@ trait ProductTable {
   }
   /** Collection-like TableQuery object for table Product */
   implicit class ProductRowExtension[C[_]](q: Query[Product, ProductRow, C]) {
-    def clients = q.join(Client).on(_.clientId === _.clientId).map(_._2)
+  
+    def clients = q.join(TableQuery[Client]).on((_.clientId === _.clientId)).map(_._2)
+
+  
+    def clients_products(implicit q: Query[Client, ClientRow, Seq]): Query[Product, ProductRow, Seq] =
+      q.join(TableQuery[Product]).on((_.clientId === _.clientId)).map(_._2)
+
   }
 
   lazy val Product = new TableQuery(tag => new Product(tag))

@@ -45,7 +45,13 @@ trait UserTable {
   }
   /** Collection-like TableQuery object for table User */
   implicit class UserRowExtension[C[_]](q: Query[User, UserRow, C]) {
-    def clients = q.join(Client).on(_.clientId === _.clientId).map(_._2)
+  
+    def clients = q.join(TableQuery[Client]).on((_.clientId === _.clientId)).map(_._2)
+
+  
+    def clients_users(implicit q: Query[Client, ClientRow, Seq]): Query[User, UserRow, Seq] =
+      q.join(TableQuery[User]).on((_.clientId === _.clientId)).map(_._2)
+
   }
 
   lazy val User = new TableQuery(tag => new User(tag))

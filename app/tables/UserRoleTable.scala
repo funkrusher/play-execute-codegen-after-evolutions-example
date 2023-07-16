@@ -38,8 +38,20 @@ trait UserRoleTable {
   }
   /** Collection-like TableQuery object for table UserRole */
   implicit class UserRoleRowExtension[C[_]](q: Query[UserRole, UserRoleRow, C]) {
-    def roles = q.join(Role).on(_.roleId === _.roleId).map(_._2)
-    def users = q.join(User).on(_.userId === _.userId).map(_._2)
+  
+    def roles = q.join(TableQuery[Role]).on((_.roleId === _.roleId)).map(_._2)
+
+  
+    def roles_user_roles(implicit q: Query[Role, RoleRow, Seq]): Query[UserRole, UserRoleRow, Seq] =
+      q.join(TableQuery[UserRole]).on((_.roleId === _.roleId)).map(_._2)
+
+  
+    def users = q.join(TableQuery[User]).on((_.userId === _.userId)).map(_._2)
+
+  
+    def users_user_roles(implicit q: Query[User, UserRow, Seq]): Query[UserRole, UserRoleRow, Seq] =
+      q.join(TableQuery[UserRole]).on((_.userId === _.userId)).map(_._2)
+
   }
 
   lazy val UserRole = new TableQuery(tag => new UserRole(tag))

@@ -44,8 +44,20 @@ trait ProductLangTable {
   }
   /** Collection-like TableQuery object for table ProductLang */
   implicit class ProductLangRowExtension[C[_]](q: Query[ProductLang, ProductLangRow, C]) {
-    def langs = q.join(Lang).on(_.langId === _.langId).map(_._2)
-    def products = q.join(Product).on(_.productId === _.productId).map(_._2)
+  
+    def langs = q.join(TableQuery[Lang]).on((_.langId === _.langId)).map(_._2)
+
+  
+    def langs_product_langs(implicit q: Query[Lang, LangRow, Seq]): Query[ProductLang, ProductLangRow, Seq] =
+      q.join(TableQuery[ProductLang]).on((_.langId === _.langId)).map(_._2)
+
+  
+    def products = q.join(TableQuery[Product]).on((_.productId === _.productId)).map(_._2)
+
+  
+    def products_product_langs(implicit q: Query[Product, ProductRow, Seq]): Query[ProductLang, ProductLangRow, Seq] =
+      q.join(TableQuery[ProductLang]).on((_.productId === _.productId)).map(_._2)
+
   }
 
   lazy val ProductLang = new TableQuery(tag => new ProductLang(tag))
