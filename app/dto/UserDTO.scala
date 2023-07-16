@@ -13,7 +13,7 @@ case class UserDTO(
     email: String,
     firstname: String,
     lastname: String,
-    isAdmin: Boolean,
+    isAdmin: Int,
 )
 
 object UserDTO {
