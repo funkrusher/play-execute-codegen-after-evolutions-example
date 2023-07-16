@@ -14,12 +14,12 @@ trait UserTable {
    *  @param email Database column email SqlType(VARCHAR), Length(255,true)
    *  @param firstname Database column firstname SqlType(VARCHAR), Length(255,true)
    *  @param lastname Database column lastname SqlType(VARCHAR), Length(255,true)
-   *  @param isAdmin Database column isAdmin SqlType(INT) */
-  case class UserRow(userId: Int, clientId: Int, email: String, firstname: String, lastname: String, isAdmin: Int)
+   *  @param isAdmin Database column isAdmin SqlType(BIT) */
+  case class UserRow(userId: Int, clientId: Int, email: String, firstname: String, lastname: String, isAdmin: Boolean)
   /** GetResult implicit for fetching UserRow objects using plain SQL queries */
-  implicit def GetResultUserRow(implicit e0: GR[Int], e1: GR[String]): GR[UserRow] = GR{
+  implicit def GetResultUserRow(implicit e0: GR[Int], e1: GR[String], e2: GR[Boolean]): GR[UserRow] = GR{
     prs => import prs._
-    UserRow.tupled((<<[Int], <<[Int], <<[String], <<[String], <<[String], <<[Int]))
+    UserRow.tupled((<<[Int], <<[Int], <<[String], <<[String], <<[String], <<[Boolean]))
   }
   /** Table description of table user. Objects of this class serve as prototypes for rows in queries. */
   class User(_tableTag: Tag) extends profile.api.Table[UserRow](_tableTag, Some("codegen1"), "user") {
@@ -37,8 +37,8 @@ trait UserTable {
     val firstname: Rep[String] = column[String]("firstname", O.Length(255,varying=true))
     /** Database column lastname SqlType(VARCHAR), Length(255,true) */
     val lastname: Rep[String] = column[String]("lastname", O.Length(255,varying=true))
-    /** Database column isAdmin SqlType(INT) */
-    val isAdmin: Rep[Int] = column[Int]("isAdmin")
+    /** Database column isAdmin SqlType(BIT) */
+    val isAdmin: Rep[Boolean] = column[Boolean]("isAdmin")
 
     /** Foreign key referencing Client (database name fk_user_clientId) */
     lazy val clientFk = foreignKey("fk_user_clientId", clientId, Client)(r => r.clientId, onUpdate=ForeignKeyAction.Restrict, onDelete=ForeignKeyAction.Cascade)

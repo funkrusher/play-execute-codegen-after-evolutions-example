@@ -1,7 +1,9 @@
 package controllers
 
-import init.CodegenGenerator
+import init.SlickCodegen
 import mapper.ProductMapper
+import play.api.Environment
+import play.api.Mode.Dev
 import play.api.i18n.I18nSupport
 import play.api.libs.json.Json
 import play.api.mvc.AbstractController
@@ -14,13 +16,17 @@ import javax.inject.Singleton
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class CodegenController @Inject() (cc: ControllerComponents, codegenGenerator: CodegenGenerator)
+class CodegenController @Inject() (env: Environment, cc: ControllerComponents)
     extends AbstractController(cc)
     with I18nSupport {
 
   def rebuild: Action[AnyContent] =
     Action { implicit request =>
-      codegenGenerator.generate(true)
+      if (env.mode == Dev) { // <- we only want it to be executed in DevMode
+        // see: https://github.com/slick/slick-codegen-customization-example/blob/master/codegen/CustomizedCodeGenerator.scala
+        val slickCodegen = new SlickCodegen();
+        slickCodegen.rebuild(true);
+      }
       Ok("Generating Code...")
     }
 }
