@@ -1,7 +1,6 @@
 package controllers
 
 import mapper.ProductMapper
-import mapper.UserMapper
 import play.api.i18n.I18nSupport
 import play.api.libs.json.Json
 import play.api.mvc.AbstractController

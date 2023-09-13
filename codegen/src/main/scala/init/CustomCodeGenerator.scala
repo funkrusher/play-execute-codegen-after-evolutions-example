@@ -36,6 +36,8 @@ class CustomCodeGenerator(model: slick.model.Model) extends SourceCodeGenerator(
       // Modify the code for each table here
       override def TableValue =
         new TableValue {
+
+
           // Generate query extensions for relationships
           override def code = {
             val tableName          = model.name.table

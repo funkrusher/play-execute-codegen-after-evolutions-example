@@ -38,7 +38,7 @@ class SlickCodegen {
     val db                                  = slick.jdbc.MySQLProfile.api.Database.forURL(url, username, password, driver = jdbcDriver)
     val dbio                                = MySQLProfile.createModel(Some(MTable.getTables(None, None, None, Some(Seq("TABLE", "VIEW")))))
     val futureModel                         = db.run(dbio)
-    val future: Future[SourceCodeGenerator] = futureModel.map(model => new CustomCodeGenerator(model))
+    val future: Future[SourceCodeGenerator] = futureModel.map(model => new SimpleCodeGenerator(model))
     try {
       println("SlickCodegen - creating files...")
       val codegen: SourceCodeGenerator = Await.result(future, Duration.create(5, TimeUnit.MINUTES))
