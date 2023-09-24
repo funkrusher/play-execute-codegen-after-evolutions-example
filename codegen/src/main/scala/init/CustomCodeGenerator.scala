@@ -40,6 +40,11 @@ class CustomCodeGenerator(model: slick.model.Model) extends SourceCodeGenerator(
 
           // Generate query extensions for relationships
           override def code = {
+
+            val tablesReferencingThisTable = tables.filter(table => {
+              table.model.foreignKeys.find(foreignKey => foreignKey.referencedTable.table == model.name.table).isDefined
+            })
+
             val tableName          = model.name.table
             val tableNameCamelCase = model.name.table.toCamelCase
             val tableClassName     = model.name.table.toCamelCase + "Row" // Construct the table class name
@@ -64,7 +69,7 @@ class CustomCodeGenerator(model: slick.model.Model) extends SourceCodeGenerator(
                 .mkString(" && ")
 
               val targetTablePluralizedName = pluralize(targetTableName.toLowerCase)
-              val backRelationMethodName =  targetTablePluralizedName + "_" + pluralize(tableName.toLowerCase)
+              val backRelationMethodName    = targetTablePluralizedName + "_" + pluralize(tableName.toLowerCase)
 
               val forwardExtensionCode =
                 s"""

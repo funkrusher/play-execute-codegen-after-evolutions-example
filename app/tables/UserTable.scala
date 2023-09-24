@@ -11,6 +11,7 @@ trait UserTable {
   // NOTE: GetResult mappers for plain SQL are only generated for tables where Slick knows how to map the types of all columns.
   import slick.jdbc.{GetResult => GR}
   /** Entity class storing rows of table User
+<<<<<<< Updated upstream
    *  @param Host Database column Host SqlType(CHAR), Length(60,false), Default('')
    *  @param User Database column User SqlType(CHAR), Length(80,false), Default('')
    *  @param Password Database column Password SqlType(LONGTEXT), Length(2147483647,true), Default(Some(NULL))
@@ -63,6 +64,19 @@ trait UserTable {
   implicit def GetResultUserRow(implicit e0: GR[String], e1: GR[Option[String]], e2: GR[Option[Char]], e3: GR[Long], e4: GR[Char], e5: GR[scala.math.BigDecimal]): GR[UserRow] = GR{
     prs => import prs._
     UserRow(<<[String], <<[String], <<?[String], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[Char], <<?[String], <<[String], <<[String], <<[String], <<[Long], <<[Long], <<[Long], <<[Long], <<[String], <<[String], <<[Char], <<?[Char], <<[String], <<[scala.math.BigDecimal])
+=======
+   *  @param userId Database column userId SqlType(INT), AutoInc, PrimaryKey
+   *  @param clientId Database column clientId SqlType(INT)
+   *  @param email Database column email SqlType(VARCHAR), Length(255,true)
+   *  @param firstname Database column firstname SqlType(VARCHAR), Length(255,true)
+   *  @param lastname Database column lastname SqlType(VARCHAR), Length(255,true)
+   *  @param isAdmin Database column isAdmin SqlType(BIT) */
+  case class UserRow(userId: Int, clientId: Int, email: String, firstname: String, lastname: String, isAdmin: Boolean)
+  /** GetResult implicit for fetching UserRow objects using plain SQL queries */
+  implicit def GetResultUserRow(implicit e0: GR[Int], e1: GR[String], e2: GR[Boolean]): GR[UserRow] = GR{
+    prs => import prs._
+    UserRow.tupled((<<[Int], <<[Int], <<[String], <<[String], <<[String], <<[Boolean]))
+>>>>>>> Stashed changes
   }
   /** Table description of table user. Objects of this class serve as prototypes for rows in queries. */
   class User(_tableTag: Tag) extends profile.api.Table[UserRow](_tableTag, Some("mysql"), "user") {
@@ -70,6 +84,7 @@ trait UserTable {
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = (Rep.Some(Host) :: Rep.Some(User) :: Password :: Select_priv :: Insert_priv :: Update_priv :: Delete_priv :: Create_priv :: Drop_priv :: Reload_priv :: Shutdown_priv :: Process_priv :: File_priv :: Grant_priv :: References_priv :: Index_priv :: Alter_priv :: Show_db_priv :: Super_priv :: Create_tmp_table_priv :: Lock_tables_priv :: Execute_priv :: Repl_slave_priv :: Repl_client_priv :: Create_view_priv :: Show_view_priv :: Create_routine_priv :: Alter_routine_priv :: Create_user_priv :: Event_priv :: Trigger_priv :: Create_tablespace_priv :: Delete_history_priv :: ssl_type :: Rep.Some(ssl_cipher) :: Rep.Some(x509_issuer) :: Rep.Some(x509_subject) :: Rep.Some(max_questions) :: Rep.Some(max_updates) :: Rep.Some(max_connections) :: Rep.Some(max_user_connections) :: Rep.Some(plugin) :: Rep.Some(authentication_string) :: Rep.Some(password_expired) :: is_role :: Rep.Some(default_role) :: Rep.Some(max_statement_time) :: HNil).shaped.<>(r => UserRow(r(0).asInstanceOf[Option[String]].get, r(1).asInstanceOf[Option[String]].get, r(2).asInstanceOf[Option[String]], r(3).asInstanceOf[Option[Char]], r(4).asInstanceOf[Option[Char]], r(5).asInstanceOf[Option[Char]], r(6).asInstanceOf[Option[Char]], r(7).asInstanceOf[Option[Char]], r(8).asInstanceOf[Option[Char]], r(9).asInstanceOf[Option[Char]], r(10).asInstanceOf[Option[Char]], r(11).asInstanceOf[Option[Char]], r(12).asInstanceOf[Option[Char]], r(13).asInstanceOf[Option[Char]], r(14).asInstanceOf[Option[Char]], r(15).asInstanceOf[Option[Char]], r(16).asInstanceOf[Option[Char]], r(17).asInstanceOf[Option[Char]], r(18).asInstanceOf[Option[Char]], r(19).asInstanceOf[Option[Char]], r(20).asInstanceOf[Option[Char]], r(21).asInstanceOf[Option[Char]], r(22).asInstanceOf[Option[Char]], r(23).asInstanceOf[Option[Char]], r(24).asInstanceOf[Option[Char]], r(25).asInstanceOf[Option[Char]], r(26).asInstanceOf[Option[Char]], r(27).asInstanceOf[Option[Char]], r(28).asInstanceOf[Option[Char]], r(29).asInstanceOf[Option[Char]], r(30).asInstanceOf[Option[Char]], r(31).asInstanceOf[Option[Char]], r(32).asInstanceOf[Option[Char]], r(33).asInstanceOf[Option[String]], r(34).asInstanceOf[Option[String]].get, r(35).asInstanceOf[Option[String]].get, r(36).asInstanceOf[Option[String]].get, r(37).asInstanceOf[Option[Long]].get, r(38).asInstanceOf[Option[Long]].get, r(39).asInstanceOf[Option[Long]].get, r(40).asInstanceOf[Option[Long]].get, r(41).asInstanceOf[Option[String]].get, r(42).asInstanceOf[Option[String]].get, r(43).asInstanceOf[Option[Char]].get, r(44).asInstanceOf[Option[Char]], r(45).asInstanceOf[Option[String]].get, r(46).asInstanceOf[Option[scala.math.BigDecimal]].get), (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
+<<<<<<< Updated upstream
     /** Database column Host SqlType(CHAR), Length(60,false), Default('') */
     val Host: Rep[String] = column[String]("Host", O.Length(60,varying=false), O.Default("''"))
     /** Database column User SqlType(CHAR), Length(80,false), Default('') */
@@ -164,6 +179,23 @@ trait UserTable {
     val default_role: Rep[String] = column[String]("default_role", O.Length(2147483647,varying=true), O.Default("''"))
     /** Database column max_statement_time SqlType(DECIMAL), Default(0.000000) */
     val max_statement_time: Rep[scala.math.BigDecimal] = column[scala.math.BigDecimal]("max_statement_time", O.Default(scala.math.BigDecimal("0.000000")))
+=======
+    /** Database column userId SqlType(INT), AutoInc, PrimaryKey */
+    val userId: Rep[Int] = column[Int]("userId", O.AutoInc, O.PrimaryKey)
+    /** Database column clientId SqlType(INT) */
+    val clientId: Rep[Int] = column[Int]("clientId")
+    /** Database column email SqlType(VARCHAR), Length(255,true) */
+    val email: Rep[String] = column[String]("email", O.Length(255,varying=true))
+    /** Database column firstname SqlType(VARCHAR), Length(255,true) */
+    val firstname: Rep[String] = column[String]("firstname", O.Length(255,varying=true))
+    /** Database column lastname SqlType(VARCHAR), Length(255,true) */
+    val lastname: Rep[String] = column[String]("lastname", O.Length(255,varying=true))
+    /** Database column isAdmin SqlType(BIT) */
+    val isAdmin: Rep[Boolean] = column[Boolean]("isAdmin")
+
+    /** Foreign key referencing Client (database name fk_user_clientId) */
+    lazy val clientFk = foreignKey("fk_user_clientId", clientId, Client)(r => r.clientId, onUpdate=ForeignKeyAction.Restrict, onDelete=ForeignKeyAction.Cascade)
+>>>>>>> Stashed changes
   }
   /** Collection-like TableQuery object for table User */
   lazy val User = new TableQuery(tag => new User(tag))
